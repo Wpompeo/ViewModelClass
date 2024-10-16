@@ -1,4 +1,5 @@
 package com.example.viewmodelapp
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,10 +13,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -47,8 +46,8 @@ class MainActivity : ComponentActivity() {
 fun ClickCountContent(
     modifier: Modifier = Modifier,
     viewModel: ClickCountViewModel
-){
-    var count by remember { mutableIntStateOf(viewModel.getCount()) }
+) {
+    val count by viewModel.uiState.collectAsState()
 
     Column(
         modifier = modifier
@@ -64,7 +63,6 @@ fun ClickCountContent(
 
         Button(onClick = {
             viewModel.increment()
-            count = viewModel.getCount()
         }) {
             Text(text = "Increment")
         }
